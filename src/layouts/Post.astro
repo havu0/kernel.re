@@ -15,9 +15,38 @@ interface Props {
 const { frontmatter } = Astro.props;
 const date = new Date(frontmatter.date);
 const dateStr = date.toISOString().slice(0, 10);
+const allTags = [...(frontmatter.categories ?? []), ...(frontmatter.tags ?? [])];
+const description = frontmatter.description || `${frontmatter.title} — by Inho Shin`;
+
+const jsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: frontmatter.title,
+  datePublished: date.toISOString(),
+  author: {
+    "@type": "Person",
+    name: "Inho Shin",
+    url: "https://kernel.re",
+  },
+  publisher: {
+    "@type": "Person",
+    name: "Inho Shin",
+    url: "https://kernel.re",
+  },
+  description,
+  keywords: allTags.join(", "),
+  url: new URL(Astro.url.pathname, Astro.site).href,
+});
 ---
 
-<Base title={`${frontmatter.title} | ./havu`} description={frontmatter.description}>
+<Base
+  title={`${frontmatter.title} | ./havu`}
+  description={description}
+  ogType="article"
+  publishedDate={date.toISOString()}
+  tags={allTags}
+>
+  <script type="application/ld+json" set:html={jsonLd} />
   <article>
     <div class="post-header">
       <h1>{frontmatter.title}</h1>

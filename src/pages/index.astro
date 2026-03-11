@@ -17,7 +17,20 @@ function postUrl(post: (typeof posts)[0]) {
 }
 ---
 
-<Base>
+<Base title="Inho Shin — Security Researcher" description="Inho Shin (havu) — Security Researcher. Blog, research, and projects.">
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Inho Shin",
+    alternateName: "havu",
+    url: "https://kernel.re",
+    jobTitle: "Security Researcher",
+    sameAs: [
+      "https://github.com/havu0",
+      "https://linkedin.com/in/inho-shin",
+      "https://x.com/havu0",
+    ],
+  })} />
   <div class="landing">
     <h1>Inho Shin</h1>
     <p class="subtitle">Security Researcher</p>
