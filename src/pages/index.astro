@@ -1,0 +1,55 @@
+---
+import Base from "../layouts/Base.astro";
+import { getCollection } from "astro:content";
+
+const posts = await getCollection("posts", ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+});
+const recentPosts = posts
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .slice(0, 5);
+
+function postUrl(post: (typeof posts)[0]) {
+  const d = new Date(post.data.date);
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  return `/${y}/${m}/${post.id}`;
+}
+---
+
+<Base>
+  <div class="landing">
+    <h1>kernel.re</h1>
+    <p class="subtitle">Security Researcher</p>
+
+    <h2>Contact</h2>
+    <ul>
+      <li><a href="mailto:havu@kernel.re">Email</a></li>
+    </ul>
+
+    <h2>Links</h2>
+    <ul>
+      <li><a target="_blank" href="https://github.com/havu0">GitHub</a></li>
+      <li><a target="_blank" href="https://linkedin.com/in/inho-shin">LinkedIn</a></li>
+      <li><a target="_blank" href="https://x.com/havu0">X <small>(Twitter)</small></a></li>
+    </ul>
+
+    <h2>Projects</h2>
+    <ul>
+      <li><a href="/posts">Blog</a></li>
+    </ul>
+
+    {recentPosts.length > 0 && (
+      <>
+        <h2>Recent Posts</h2>
+        <ul>
+          {recentPosts.map((post) => (
+            <li>
+              <a href={postUrl(post)}>{post.data.title}</a>
+            </li>
+          ))}
+        </ul>
+      </>
+    )}
+  </div>
+</Base>
