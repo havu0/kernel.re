@@ -1,7 +1,7 @@
 ---
 title: "Hack The Home"
 date: 2022-10-19
-draft: false
+draft: true
 categories: ["hacking"]
 tags: ["hardware", "reverse-engineering"]
 ---
